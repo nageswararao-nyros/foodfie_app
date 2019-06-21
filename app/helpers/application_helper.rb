@@ -1,7 +1,7 @@
 module ApplicationHelper
   def current_user
     # binding.pry
-    authorization_header = request.headers['Authorization']
+    authorization_header = request.headers['HTTP_AUTHORIZATION']
     if authorization_header
       token = authorization_header
       @current_user ||= User.find_by_authentication_token(token)

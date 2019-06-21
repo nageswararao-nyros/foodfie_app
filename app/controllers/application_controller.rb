@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   # end
 
   protected
+  # binding.pry
   def request_http_token_authentication(realm = "Application")
     self.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
     # render :json => {:error => "HTTP Token: Access denied."}, :status => :unauthorized
@@ -25,8 +26,11 @@ class ApplicationController < ActionController::Base
 
   private
   def restrict_access
-    authenticate_or_request_with_http_token do |token, options|
-      !!User.find_by_authentication_token(token)
+    # binding.pry
+    authorization_header = request.headers['HTTP_AUTHORIZATION']
+    if authorization_header
+      token = authorization_header
+      @current_user ||= User.find_by_authentication_token(token)
     end
   end
 
