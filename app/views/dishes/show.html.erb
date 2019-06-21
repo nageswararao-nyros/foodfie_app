@@ -1,0 +1,96 @@
+<div class="content-top-mrgn">
+  <section id="single_food">
+    <div class="container-fluid">
+      <div class="row">
+        <div class=" col-lg-3 col-md-3 col-sm-12 col-xs-12 no_padding_left no_padding_right">
+          <div class="restra_inner">
+            <div class="dish_info_left">
+              <div class="media">
+                <div class="media-left">
+                  <div class="food_sml_left"><%= image_tag(@dish.dish_image(:original), class: 'dish_bk_img', alt: @dish.name) %></div>
+                </div>
+                <div class="media-body">
+                  <div class="food_sml_right">
+                    <h2 class="restra_title"><%= @dish.name %></h2>
+                    <p class="restra-txt"><%= link_to @dish.restaurant.name, restaurant_path(@dish.restaurant) %><%#= @dish.restaurant.name %></p>
+                    <p><i><%= @dish.description %></i></p>
+                    <ul class="single_dish_tag">
+                      <% get_tags_in_order(@dish).each do |tag| %>
+                          <li><a href="#" title="<%= tag.name %>"><img src="/assets/<%= tag.name.parameterize.underscore %>.png" alt="tag"/></a></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="comments" style="float:left; overflow-y: auto;">
+              <% @comments.each do |comment| %>
+                <div class="review_left">
+                  <div class="media">
+                    <div class="media-left">
+                      <div class="food_sml_left"><%= image_tag(comment.user.user_image, alt: comment.user.name) %></div>
+                    </div>
+                    <div class="media-body">
+                      <div class="food_sml_right">
+                        <div class=" col-lg-8 col-md-8 col-sm-8 col-xs-8 no_padding_left no_padding_right">
+                          <p class="rv_txt"><%= comment.context%></p>
+                          <h2 class="restra-txt"><%= comment.user.name %></h2>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no_padding_left no_padding_right">
+                          <div class="rating-lg">
+                            <%= image_tag('HEART.png', alt: "heart") %>
+                            <span><%= @dish.average_rating %></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class=" col-lg-9 col-md-9 col-sm-12 col-xs-12 no_padding_right no_padding_left hover_outr">
+          <div class="single_item">
+            <figure class="effect-lily">
+              <div class="dish_top">
+                <%= image_tag(@dish.dish_image(:original), class: 'dish_bk_img scale', alt: @dish.name, 'data-scale' => "best-fill", 'data-align' => "center") %>
+                <div class="dish_overlay"></div>
+                <!--<div class="rating"> <span><%#= image_tag('cancel.png', alt: 'cancel')%></span> </div>-->
+                <div class="rating">
+                  <%= image_tag('HEART.png', style: 'width: 22px;' )%>
+                  <span><%= @dish.average_rating %></span>
+                  <p class="votes"><%= pluralize @dish.votes, 'vote' %></p>
+                </div>
+                <figcaption>
+                  <div>
+                    <h2><%= @dish.name %></h2>
+                    <p><span style="font-size:12px; float: left;"><%= link_to @dish.restaurant.name, restaurant_path(@dish.restaurant) %></span> <span class="rst_price_lrg">$<%= @dish.price %></span></p>
+                  </div>
+                </figcaption>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script type="text/javascript">
+
+  var img_height = $(window).height() - $('header').height() - 28;
+  //    $('.dish_overlay').prev().prev().css({height: img_height, width: 'auto', overflow: 'hidden'});
+
+  if(screen.width <= 768){
+    $(".hover_outr").css({"width":"90%", "margin":"0px 0px 0px 45px"});
+    img_height = 1000
+  }
+
+  $('.dish_top').css({height: img_height, width: '100%', overflow: 'hidden'});
+  var comments_height = img_height - $('.dish_info_left').height() - 52;
+  $('#comments').css({width: '100%'});
+  $(function() {
+    $("img.scale").imageScale();
+  });
+  
+</script>

@@ -1,0 +1,8 @@
+$("#dish_list").append("<%= j(render(partial: 'home/dishes_list')) %>");
+<% if @dishes.last_page? %>
+$("#load-more-food").hide();
+$("#dish_list").addClass("remove")
+$("#footr").css("margin-top","50px")
+<% else %>
+$("#load-more-food").attr("href", "<%= search_path(page: (@dishes.current_page+1)) %>");
+<% end %>

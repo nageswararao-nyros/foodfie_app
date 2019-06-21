@@ -1,0 +1,40 @@
+<% @dishes.each do |dish| %>
+    <div class='col-lg-4 col-md-4 col-sm-6 col-xs-12 hover_outr'>
+      <figure class='effect-lily'>
+        <div class='dish_top' style='height: 360px;' onclick="window.location.href='<%= dish_path(dish) %>'">
+          <%= image_tag(dish.dish_image(:original), class: 'dish_bk_img scale', alt: dish.name, 'data-scale' => "best-fill", 'data-align' => "center") %>
+          <div class='dish_overlay'></div>
+          <div class='rating'>
+            <%= image_tag('HEART.png')%>
+            <span><%= dish.average_rating %></span>
+            <p class="votes"><%= pluralize dish.votes, 'vote' %></p>
+          </div>
+          <figcaption>
+            <div>
+              <h2><%= dish.name %></h2>
+              <p>
+                <span style="font-size:15px; float: left;">
+                  <% if dish.restaurant %>
+                    <%= link_to dish.restaurant.name, restaurant_path(dish.restaurant) %>
+                  <% end %>
+                </span>
+                <span class='rst_price_lrg'>$<%= dish.price %></span></p>
+            </div>
+          </figcaption>
+        </div>
+        <div class='dish_btm'>
+          <ul>
+            <!--<li> Now open</li>-->
+            <% if dish.restaurant %>
+              <li><%= link_to dish.restaurant.address, "http://maps.google.com/?q=#{dish.restaurant.address}" ,:target => '_blank'%></li>
+            <% end %>
+          </ul>
+        </div>
+      </figure>
+    </div>
+<% end %>
+<script type="text/javascript">
+    $(function() {
+        $("img.scale").imageScale();
+    });
+</script>

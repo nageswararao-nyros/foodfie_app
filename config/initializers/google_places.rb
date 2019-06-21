@@ -1,0 +1,1 @@
+@client = GooglePlaces::Client.new('AIzaSyCDQE3TvjnrWGpWwngB6TryWvpFm7RiAAw')

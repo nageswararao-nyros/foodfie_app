@@ -1,0 +1,44 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+  	<header>
+  		<div class="row">
+  			<div class="col-xs-4 col-sm-4 col-mg-8 col-lg-8">
+          <div class="side-block">
+            <div class="header-list" style="margin-left: 0px">
+              <%= image_tag('peppa_logo.png', class: "logo")%>
+            </div>
+            <% if params[:action] != "landing_page"%>
+              <div class="header-list loc-srch">
+                <ul class="nav navbar-nav">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= location_name %><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <%= form_tag location_search_path, method: :post, id: 'location_search_form', enforce_utf8: false do %>
+                          <div class="input-group">
+                            <%= text_field_tag :location, params[:location], class: 'form-control', id: 'location_search', placeholder: 'location' %>
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" type="submit"><span><%= image_tag('icon_search.png') %></span> </button>
+                            </span>
+                          </div>
+                        <% end %>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+  			</div>
+        <div class="col-xs-8 col-sm-8 col-mg-4 col-lg-4 mobile-pading">
+          <div class="col-xs-9 col-mg-9 col-lg-9 contact-us">
+            <%= link_to "Contact Us", "mailto:hello@peppa.io"%>
+    			</div>
+          <div class="col-xs-3 col-mg-3 col-lg-3 contact-us">
+            <%= link_to "Search", search_path%>
+          </div>
+        </div>
+  		</div>
+  	</header>
+  </div>
+</nav>

@@ -1,0 +1,75 @@
+<div class="content-top-mrgn">
+  <section id="rasturantS">
+    <div class="container-fluid">
+      <div class="row">
+        <div class=" col-lg-3 col-md-3 col-sm-12 col-xs-12 no_padding_left no_padding_right">
+          <div class="restra_inner">
+            <!--<div class="restra_img_outr"><img src="images/6.png" alt="restra" /></div>-->
+            <h2 class="restra_title"><%= @restaurant.name %></h2>
+            <!--<p class="restra-txt"><%= @restaurant.address %><br></p>-->
+            <p class="restra-txt"><%= link_to @restaurant.address, "http://maps.google.com/?q=#{@restaurant.address}" ,:target => '_blank'%><br></p>
+            <a href="tel:0411409293" class="rstra_phn"><%= @restaurant.phone_number %></a>
+            <ul class="ver-filter">
+              <li>
+                <div class="select_box sort_by">
+                  <label>
+                    <select id="filter">
+                      <option selected="">Sort by </option>
+                      <option value="rating">Rating</option>
+                      <option value="price">Price</option>
+                    </select>
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="select_box rating_by">
+                  <label>
+                    <%#=select_tag 'rating', options_for_select((1..10)), prompt: 'All Rating', id: 'rating_filter'%>
+                    <select id="rating_filter">
+                      <option selected="" value="0">All Rating </option>
+                      <option value="5">5+</option>
+                      <option value="7">7+</option>
+                      <option value="9">9+</option>
+                    </select>
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="select_box tag_by">
+                  <label>
+                    <%=select_tag 'rating', options_for_select(Tag.all.collect{|t| [t.name.upcase,t.name.upcase]}), prompt: 'All Dietary Requirements', id: 'tag_filter'%>
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class=" col-lg-9 col-md-9 col-sm-12 col-xs-12 no_padding_right no_padding_left">
+          <div id="restaurant_dish_list">
+          <%= render 'restaurant_dish_list' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script type="text/javascript">
+    //    $('.dish_top').css({height: '360px', width: '100%', overflow: 'hidden'});
+    var search = window.location.href;
+    $(".sort_by").change(function(){
+        var sort_value = $('#filter :selected').val();
+        var rating_value = $('#rating_filter :selected').val();
+        ajax_call(search,{sort_by:sort_value,rating:rating_value, dish_page: 1},'GET');
+    });
+    $(".rating_by").change(function(){
+        var sort_value = $('#filter :selected').val();
+        var rating_value = $('#rating_filter :selected').val();
+        ajax_call(search,{sort_by:sort_value,rating:rating_value, dish_page: 1},'GET');
+    });
+    $(".tag_by").change(function(){
+        var sort_value = $('#filter :selected').val();
+        var rating_value = $('#rating_filter :selected').val();
+        var tag_value = $('#tag_filter :selected').val();
+        ajax_call(search,{sort_by:sort_value,rating:rating_value,'tags[]': tag_value, dish_page: 1},'GET');
+    });
+</script>

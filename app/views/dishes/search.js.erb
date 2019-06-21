@@ -1,0 +1,10 @@
+$("#total_dishes").html("<%= @total_dishes %> Results");
+<% if @refresh_results %>
+$("#search_list").html("<%=escape_javascript(render(:partial => 'search_dish_list'))%>");
+<% else %>
+$("#search_list").append("<%= j(render(partial: 'search_dish_list')) %>");
+<% end %>
+
+
+$("#more-food").show();
+$("#more-food").attr("href", "<%= j(search_dishes_path(@search_params)) %>");

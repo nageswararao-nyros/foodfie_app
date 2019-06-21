@@ -1,0 +1,291 @@
+.content{
+    max-width: 1245px;
+    margin: auto;
+}
+
+.contact-us{    
+    text-align: right;
+    text-transform: uppercase;
+    color: #babbbf;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 7px;
+    line-height: 46px; 
+    vertical-align: middle;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.contact-us a{
+    color: #babbbf;
+    text-decoration: none;
+}
+
+.rm-padding{
+	padding-left: 0px;
+    padding-right: 0px;
+}
+
+.rm-margin{
+    margin: 0px
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.food-search{
+    text-transform: uppercase;
+    color: #babbbf;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 44px;
+}
+
+.search-image{
+    width:100%;
+}
+
+.top-row{
+    margin-bottom: 210px; 
+    margin-top: 100px; 
+}
+
+.txt-bsd-img{
+    padding-top: 188px;
+}
+
+.txt-bsd-img2{
+    padding-top: 275px;
+    padding-left: 40px;
+}
+
+.find-what{
+    margin-bottom: 60px;
+    margin-top: 0px;
+    color: #212529;
+    font-size: 45px;
+    font-style: normal;
+    line-height: 60px;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif;
+}
+
+.download-now{
+    margin-bottom: 25px;
+    margin-top: 0px;
+    color: #212529;
+    font-size: 35px;
+    font-style: normal;
+    line-height: 40px;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif; 
+}
+
+.search-desc{
+    font-size: 17px;
+    line-height: 30px;
+    color: #787a7d;
+    font-weight: 500;
+    text-align: left;
+}
+
+.footer-row{
+    background-color: #f0bdaf;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    height: 400px
+}
+
+.footer-row .container .col-lg-8{
+    padding-top: 150px;
+}
+
+.socila-icons{
+    padding-top: 278px;
+    text-align: right;
+}
+
+
+.find-what span{
+    color: #fff;
+    font-size: 52px
+}
+
+.img-rt-align{
+    text-align: right;
+    padding-right: 0px
+}
+
+.footer-hdng{
+    margin-bottom: 65px;
+    font-size: 52px;
+    font-style: normal;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif;
+    color:#fff;
+}
+
+.abv-footer-div{
+    margin-bottom: 100px; 
+    margin-top: 50px; 
+}
+
+.rm-row-margin .row{
+    margin-right: 0px;
+}
+
+.navbar-default{
+    background-color: #fff;
+    background-image: none;
+    box-shadow: none;
+    border: none;
+}
+
+.logo{
+    cursor: pointer;
+    width: 130px;
+}
+
+.navbar-fixed-top .container{
+    padding-right: 20px
+}
+
+header .row{
+    padding-top: 30px
+}
+
+.play-store-images a img{
+    width: 135px;
+    margin-right: 20px; 
+}
+
+
+.side-block{
+    padding: 0px 20px 0px 0px;
+}
+
+.side-block a img{
+    width: 36px;
+}
+
+.socila-icons{
+    padding-top: 278px;
+    text-align: right;
+}
+
+.social-icon {
+    display: inline-block; 
+    margin: 0 10px
+}
+
+.footer-list {
+    display: inline-block; 
+    margin: 0 20px;
+    color:#fff;
+    font-size: 18px;
+}
+
+.footer-list a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-list{
+    display: inline-block; 
+    margin: 0 10px;
+    color:#fff;
+    font-size: 18px;
+}
+
+.loc-srch{
+    margin-top:8px;
+    position: absolute; 
+}
+
+
+.mobile-pading{
+    padding: 0px 3px 0px 0px
+}
+
+@media only screen and (max-width: 995px) {
+
+
+   .txt-bsd-img{
+       padding-top: 30px;
+       padding-bottom: 30px;
+       text-align: center;
+    }
+
+    .txt-bsd-img2{
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+    }
+
+    .footer-list, .footer-hdng{
+        padding-left: 30px;
+    }
+
+
+    .food-search{
+        font-size: 15px;
+    }
+
+    .contact-us{  
+        font-size: 15px;
+    }
+
+    .search-desc{
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .mobile-pading{
+        padding: 0px 20px 0px 0px
+    }
+
+
+    .footer-row .container .col-lg-8{
+        padding-top: 120px;
+    }
+
+    .in-pocket{
+        padding: 0px 20px 0px 20px;
+    }
+
+    .socila-icons{
+        padding-top: 0px;
+        text-align: left;
+        padding-left: 36px;
+        margin-top: 50px;
+    }
+
+    .footer-list {
+        margin: 0px 0px 0px 16px !important;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+    .footer-list {
+        margin: 0 16px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .footer-list {
+        margin: 0px 0px 0px -4px !important;
+    }
+
+    .socila-icons{
+        padding-top: 0px;
+        text-align: left;
+        padding-left: 36px;
+        margin-top: 50px;
+    }
+}

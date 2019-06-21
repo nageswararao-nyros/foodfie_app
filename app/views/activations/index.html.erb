@@ -1,0 +1,45 @@
+<div class="activtn-tp-mrgn">
+  <div class="image-div"> 
+    <a href="#"> 
+      <%= image_tag('peppa_logo.png')%>
+    </a> 
+  </div>
+  <div class="tot_pag">
+    <% if @success %>
+        <h1 class="success-msg-hdng">Activation successful</h1>
+        <p class="success-msg">
+          Your account has successfully been activated.
+        </p>
+      <% else %>
+        <h1 class="success-msg-hdng">Activation failed</h1>
+        <p class="success-msg">
+          Something went wrong while activating your account. <br>This might mean that the activation code was wrong or that your account has already been activated
+        </p>
+      <% end %>
+      
+  </div>
+  <div class="foter">
+      <h6 class="thnk-msg">
+        Thank you for signing up! with Peppa 
+      </h6>
+      <div style="clear: both;"></div>
+  </div>
+</div>
+
+<style type="text/css">
+  body{background: rgb(238, 238, 238);}
+  .image-div{width: 100%;text-align: center;margin: 30px 0;}
+  .success-msg-hdng{font-size: 16px;text-align: left;color:#fff;font-weight: bold;}
+  .success-msg{font-size: 14px;color: #fff;text-align: left;font-weight: normal;margin-top: 15px;line-height:20px;}
+  #headr{display: none}
+  .thnk-msg{font-size: 13px;color: #666;text-align: center;margin: 0px;padding: 0;font-weight: bold;}
+  .tot_pag{width: 40%;margin: 10px auto;border-radius: 5px;background: #f7aa97;padding: 20px;}
+  .foter{width: 40%;margin: 20px auto;}
+  .nxt_stp li{width: 50%;margin-top: 10px;}
+  .nxt_stp li img{margin-right: 20px;margin-top: 10px;}
+  @media (max-width: 667px) {
+    .nxt_stp li{width: 100%;margin-top: 15px;}
+    .tot_pag{width: 80%;}
+    .foter{width: 80%;}
+  }
+</style>

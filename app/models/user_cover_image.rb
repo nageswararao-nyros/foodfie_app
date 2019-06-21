@@ -1,0 +1,2 @@
+class UserCoverImage < User
+end

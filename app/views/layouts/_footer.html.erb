@@ -1,0 +1,20 @@
+<footer id="footr">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 pull-right col-xs-12 phone-img">
+        <%= image_tag('phone.png', class: 'phone_img') %>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <h2 class="footr_txt"> Do more with the app. Download it today!</h2>
+        <ul>
+          <li>
+            <%= link_to image_tag('download_android.png'), "https://play.google.com/store/apps/details?id=com.peppa.app", target: :_blank%>
+          </li>
+          <li>
+            <%= link_to image_tag('download-ios.png'), "https://itunes.apple.com/us/app/peppa/id1270825524?ls=1&mt=8", target: :_blank%>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

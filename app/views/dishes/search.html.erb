@@ -1,0 +1,287 @@
+<% if @restaurants.empty? %>
+  <section id="resultS" class="content-top-mrgn">
+    <div class="container-fluid">
+      <div class="row">
+        <h3 style="text-align: center;">No result found</h3>
+      </div>
+    </div>
+  </section>
+<% else %>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgKJbqS1vWAQkZc3z538WNX-Irb17NRWo&sensor=false"></script>
+  <section id="resultS" class="content-top-mrgn">
+    <div class="container-fluid">
+      <div class="row">
+        <div class=" col-lg-6 col-md-6 col-sm-12 col-xs-12  no_padding_right">
+          <div class="reslt_inner">
+            <ul class="filter">
+              <li>Filter</li>
+              <li>
+                <div class="select_box sort_by">
+                  <label>
+                    <select id="filter">
+                      <option selected="" value="">Sort by </option>
+                      <option value="rating">Rating</option>
+                      <option value="price">Price</option>
+                    </select>
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="select_box rating_by">
+                  <label>
+                    <select id="rating_filter">
+                      <option selected="" value="">All Ratings </option>
+                      <option value="5">5+</option>
+                      <option value="7">7+</option>
+                      <option value="9">9+</option>
+                    </select>
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="select_box tag_by">
+                  <dl class="dropdown">
+                    <dt>
+                      <a>
+                        <span class="hida">All Dietary Requirements</span>
+                        <p class="multiSel"></p>
+                      </a>
+                    </dt>
+                    <dd>
+                      <div class="mutliSelect">
+                        <ul>
+                          <li> <b>MEALS</b> </li>
+                          <% tags_of_meals.collect{|t| [t,t]}.each do |tag| %>
+                            <li><input type="checkbox" class="meals" value="<%= tag[1] %>"  /><%= tag[0] %></li>
+                          <% end %>
+                          <li> <b>DIETARIAN</b> </li>
+                          <% tags_of_dietarian.collect{|t| [t,t]}.each do |tag| %>
+                            <li><input type="checkbox" class="dietarian" value="<%= tag[1] %>"  /><%= tag[0] %></li>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </dd>
+                  </dl>
+                </div>
+              </li>
+            </ul>
+
+
+
+            <div class="rangE">
+              <div class="col-lg-2 col-md-2 no_padding_left">
+                <span class="lbl" id="total_dishes"><%= @total_dishes %> Results</span>
+              </div>
+              <div class="col-lg-10 col-md-10 col-xs-12 no_padding_left">
+                <div class="col-lg-1 col-md-2 col-xs-1 no_padding_right">
+                  <p><input type="text" id="amount" value="<%=@sel_min_price%>" readonly></p>
+                </div>
+                <div class="col-lg-8 col-md-6 col-xs-10 no_padding_right no_padding_left">
+                  <div id="slider-range"></div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-xs-1 no_padding_right">
+                  <p><input type="text" id="max-amount" value="<%=@sel_max_price%>" readonly></p>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  no_padding_right" id="search_list_container" style="float:left; overflow-y: auto;">
+              <div id="search_list">
+                <%= render 'search_dish_list' %>
+              </div>
+              <div class='btn_outer'>
+                <%= link_to "see more food", search_dishes_path(@search_params), id: "more-food", remote: true unless @dishes.last_page? %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class=" col-lg-6 col-md-6 col-sm-12 col-xs-12  no_padding_left">
+          <div id="map_outer">
+            <div id="map"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+      var min_price = $("#amount").val().replace(/\D/g,'');
+      var max_price = $("#max-amount").val().replace(/\D/g,'');
+      createSlider("<%=@min_price%>", "<%=@max_price%>", min_price, max_price);
+      $(function() {
+          if(screen.width <= 768){
+            $(".ui-slider .ui-slider-handle").css({"width":"40px", "height":"40px"});
+            $(".ui-slider-horizontal .ui-slider-handle").css("top", "-1.3em");
+            $(".ui-slider-horizontal").css("height", "10px")
+            $("#max-amount").css("text-align", "right")
+          }
+
+          if (window.history && window.history.pushState) {
+              var min_price = $( "#amount" ).val().replace(/\D/g,'');
+              var max_price = $("#max-amount").val().replace(/\D/g,'');
+              var sort_value = $('#filter :selected').val();
+              var rating_value = $('#rating_filter :selected').val();
+              var tags = [];
+              var html = '';
+              var meals = [];
+              var dietarian = [];
+
+              $(".mutliSelect .meals").each(function(){
+                  if ($(this).is(':checked')){
+                    meals.push($(this).val());
+                    html += '<span title="' + $(this).val() + ',">' + $(this).val() + "," + '</span>';
+                    $('.hida').hide();
+                  }
+                      
+                      
+              });
+
+              $(".mutliSelect .dietarian").each(function(){
+                if ($(this).is(':checked')){
+                  dietarian.push($(this).val());
+                  html += '<span title="' + $(this).val() + ',">' + $(this).val() + "," + '</span>';
+                  $('.hida').hide();
+                }
+              });
+
+              $('.multiSel').html(html);
+              $("img.scale").imageScale();
+              ajax_call(search,{min_price: min_price, max_price: max_price, sort_by:sort_value,rating:rating_value,'meals[]': meals, 'dietarian[]': dietarian, dish_page: 1},'GET');
+          }
+      });
+
+      var search = window.location.href;
+
+      $(".sort_by").change(function(){
+          var  min_price = $( "#amount" ).val().replace(/\D/g,'');
+          var  max_price = $("#max-amount").val().replace(/\D/g,'');
+          var sort_value = $('#filter :selected').val();
+          var rating_value = $('#rating_filter :selected').val();
+          var tags = [];
+          $(".mutliSelect input:checkbox").each(function(){
+              if ($(this).is(':checked'))
+                  tags.push($(this).val());
+          });
+          ajax_call(search,{min_price: min_price, max_price: max_price, sort_by:sort_value,rating:rating_value,'tags[]': tags, dish_page: 1},'GET');
+      });
+
+      $(".rating_by").change(function(){
+          var  min_price = $( "#amount" ).val().replace(/\D/g,'');
+          var  max_price = $("#max-amount").val().replace(/\D/g,'');
+          var sort_value = $('#filter :selected').val();
+          var rating_value = $('#rating_filter :selected').val();
+          var tags = [];
+          $(".mutliSelect input:checkbox").each(function(){
+              if ($(this).is(':checked'))
+                  tags.push($(this).val());
+          });
+          ajax_call(search,{min_price: min_price, max_price: max_price, sort_by:sort_value,rating:rating_value,'tags[]': tags, dish_page: 1},'GET');
+      });
+
+      $(document).ready(function(){
+
+        $(function() {
+            var hoverOffset = 80000;
+            $(".dish_top a").click(function(e) {
+                e.stopPropagation();
+            });
+
+            $("img.scale").imageScale();
+            <% if @dishes.size == 1 %>
+            var d_w = $('.no_padding_right').width();
+            $("#search_list_container").css({width: d_w+'px'});
+            var d_w = d_w/2;
+            $(".hover_outr").css({width: d_w+'px'});
+            <% end %>
+
+            var img_height = $(window).height() - $('header').height() - 7;
+            $('#map_outer').css({height: img_height, width: 'auto'});
+            var list_height = img_height - $('.filter').height() - $('.rangE').height() - 35;
+            $('#search_list_container').css({height: list_height});
+            var locations = <%= raw @hash %>;
+            var center_point = {lat: locations[0][1], lng: locations[0][2]};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                scrollwheel: false,
+                center: center_point,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var image = {url: '<%= asset_path 'marker_grey.png' %>'};
+            var image2 = {url: '<%= asset_path 'marker_orange.png' %>'};
+            var marker, i;
+            var markerBounds = new google.maps.LatLngBounds();
+            var infowindow = new google.maps.InfoWindow();
+            var currentMark;
+            var markers = [];
+
+            var markerIcon = {
+              url: image["url"],
+              scaledSize: new google.maps.Size(45, 40),
+              labelOrigin: new google.maps.Point(22,16)
+            };
+
+            var markerIcon2 = {
+              url: image2["url"],
+              scaledSize: new google.maps.Size(45, 40),
+              labelOrigin: new google.maps.Point(22,16)
+            };
+
+            for (i = 0; i < locations.length; i++) {
+                // var marker = new MarkerWithLabel({
+                //     position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                //     map: map,
+                //     labelContent: '' + locations[i][4], 
+                //     labelAnchor: new google.maps.Point(3.5, 31),
+                //     labelClass: "labels",
+                //     zIndex:newStyle,
+                //     labelInBackground: false,
+                //     icon: image,
+                // });
+
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                    map: map,
+                    icon: markerIcon,
+                    label: {text: ''+ locations[i][4], color: "#fff", fontWeight: "bold"}
+
+                });
+
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        for (var j = 0; j < markers.length; j++) {
+                            markers[j].setIcon(markerIcon);
+                        }
+                        marker.setIcon(markerIcon2);
+                        var restaurant_info = '<b>' + locations[i][3] + '</b><br/>' + locations[i][0];
+                        $.ajax({
+                          type: "Get",
+                          url: "/get_restaurant_dishes",
+                          data:{search: "<%= @search_key%>", rest_id: locations[i][5]},
+                          success:function(data){
+                            
+                          },
+                          error:function(){
+                            
+                          }
+                        })
+                        infowindow.setContent(restaurant_info);
+                        infowindow.open(map, marker, restaurant_info);
+                        currentMark = this;
+                    }
+                })(marker, i));
+                markerBounds.extend(marker.getPosition());
+                markers.push(marker);
+            }
+            google.maps.event.addListener(infowindow,'closeclick',function(){
+                currentMark.setIcon(markerIcon);
+            });
+
+            map.fitBounds(markerBounds);
+        });
+
+      })
+
+
+  </script>
+<% end %>

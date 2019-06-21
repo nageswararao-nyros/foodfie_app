@@ -1,0 +1,35 @@
+<div class="content-top-mrgn">
+  <section id='hometop'>
+    <div class='top_sec_inner'>
+      <%= image_tag 'hero.png', alt: 'slider image', class: 'hero_img' %>
+      <div class='hero_txt_outr'>
+        <h2 class='slider_title'> What do you <em>really</em> feel like? </h2>
+        <div class='search_outr'>
+          <div class='input-group'>
+            <%= form_tag search_dishes_path, method: :get, enforce_utf8: false do %>
+              <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Chips and burgers', style: 'width: 66%; height: 50px;'%>
+                <span class='input-group-btn icn-srh' style="height: 50px;">
+                  <button class='btn btn-default' type='submit'>
+                    <%= image_tag('icon_search.png')%> Search
+                  </button>
+                </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id='top_dishes'>
+    <div class='container'>
+      <div class='row'>
+        <h2 class='sec_title'><%= "#{current_location['city']}'S " if current_location['city'].present? %>TOP RATED DISHES</h2>
+        <div id="dish_list">
+          <%= render 'home/dishes_list'  %>
+        </div>
+      </div>
+      <%= content_tag :div, link_to("see more food", search_path(page: @dishes.current_page+1), id: "load-more-food", :method => :get, remote: true), class: 'btn_outer' unless @dishes.last_page? %>
+    </div>
+  </section>
+
+  <%= render 'layouts/footer' %>
+</div>

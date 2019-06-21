@@ -1,0 +1,78 @@
+<div class="rm-row-margin">
+    <div class="row top-row">
+        <div class="container">
+            <div class="col-xs-12 col-md-4 col-lg-4 txt-bsd-img">
+                <p class="food-search">Food search just got real</p>
+                <h1 class="find-what"> Find what you<br> feel like. </h1>
+
+		<p class="food-search">Download the app now on</p>
+                <div class="play-store-images">
+                    <%= link_to image_tag('download_android.png'), "https://play.google.com/store/apps/details?id=com.peppa.app", target: :_blank%>
+                    <%= link_to image_tag('download-ios.png'), "https://itunes.apple.com/us/app/peppa/id1270825524?ls=1&mt=8", target: :_blank%>
+                </div>
+             
+            </div>
+            <div class="col-xs-12 col-md-8 col-lg-8 img-rt-align">
+                <%= image_tag('hero-image.png', class: "search-image")%>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <%= link_to image_tag('search-image.png', class: "search-image"), search_path%>
+        </div>
+    </div>
+
+
+    <div class="row abv-footer-div">
+        <div class="container">
+            <div class="col-xs-12 col-md-7 col-lg-7">
+                <%= image_tag('restaurant-image.png', class: "search-image")%>
+            </div>
+            <div class="col-xs-12 col-md-5 col-lg-5 txt-bsd-img2">
+                <p class="food-search">Always know what to order</p>
+                <h1 class="find-what in-pocket"> Restaurant menus right in your pocket.</h1>
+                <p class="search-desc">
+                    Search from thousands of dishes from any
+                    restaurant rated by hundreds of others. Yup,
+                    Know exactly what to order all the time, you
+                    tasteful person, you.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="rm-margin footer-row">
+        <div class="row">
+            <div class="container">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <h1 class="footer-hdng"> <span> Let's talk. </span> </h1>
+                    <div class="side-block">
+                        <b class="footer-list" style="margin-left: 0px !important">
+                            <%= link_to "Investors", "mailto:investors@peppa.io"%>
+                        </b>
+                        <b class="footer-list">
+                            <%= link_to "Restaurants", "mailto:restaurants@peppa.io"%>
+                        </b>
+                        <b class="footer-list">
+                            <%= link_to "Social Influencers", "mailto:socialinfluencers@peppa.io"%>
+                        </b>
+                        <b class="footer-list">
+                            <%= link_to "Terms of Service", "https://docs.google.com/document/d/1fwNOj2s57pxIA48U5MSfYav1dmrKyJZNnC2bj_0zC30/edit?usp=sharing", target: :_blank%>
+                        </b>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 socila-icons">
+                    <div class="side-block">
+                        <%= link_to image_tag('facebook.png'), "https://www.facebook.com/peppaapp/", target: :_blank, class: "social-icon" %>
+                        <%= link_to image_tag('instagram.png'), "https://www.instagram.com/peppa.app/", target: :_blank, class: "social-icon" %>
+                        <%= link_to image_tag('mail.png'), "http://eepurl.com/c5ILXn", target: :_blank, class: "social-icon" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
