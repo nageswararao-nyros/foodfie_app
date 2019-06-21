@@ -87,7 +87,7 @@ Rails.application.configure do
   config.static_cache_control = "public, s-maxage=15552000, max-age=2592000"
 
   #config.action_controller.asset_host = 'http://www.peppa.io/'
-  config.action_controller.asset_host = 'http://34.237.225.86:3000/'
+  config.action_controller.asset_host = 'https://foodfie.herokuapp.com/'
   config.action_mailer.delivery_method = :ses
 
 end

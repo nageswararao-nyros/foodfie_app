@@ -16,7 +16,7 @@ module Peppa
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
-   config.action_mailer.default_url_options = { host: 'http://203.193.173.125:6325/' } 
+   config.action_mailer.default_url_options = { host: 'https://foodfie.herokuapp.com/' } 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
