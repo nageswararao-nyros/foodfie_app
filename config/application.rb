@@ -16,6 +16,7 @@ module Peppa
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
     # ENV['CORS_ORIGINS'] = 'https://foodfie-65a8c.firebaseapp.com, http://localhost:3000, http://10.90.90.102:3000'
+
     config.action_mailer.default_url_options = { host: 'https://foodfie.herokuapp.com/' } 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -26,10 +27,12 @@ module Peppa
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
 
-    config.middleware.insert_before 0, Rack::Cors do
+    Rails.application.config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*'
-        resource '*', headers: :any, methods: [:get, :post, :put, :options]
+        origins 'https://foodfie-65a8c.firebaseapp.com'
+        resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head]
       end
     end
   end
