@@ -51,6 +51,6 @@ class Api::V1::RegistrationsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :first_name, :last_name, :device_id).compact.reject { |k,v| v.nil? || v.empty? }
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :first_name, :last_name, :device_id)
   end
 end
