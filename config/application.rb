@@ -15,8 +15,8 @@ module Peppa
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
-
-   config.action_mailer.default_url_options = { host: 'https://foodfie.herokuapp.com/' } 
+    ENV['CORS_ORIGINS'] = 'https://foodfie-65a8c.firebaseapp.com, http://localhost:3000, http://10.90.90.102:3000'
+    config.action_mailer.default_url_options = { host: 'https://foodfie.herokuapp.com/' } 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
@@ -28,7 +28,7 @@ module Peppa
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*'
+        origins ENV['CORS_ORIGINS'].split(',').map { |origin| origin.strip }
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
