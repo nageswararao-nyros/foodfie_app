@@ -28,7 +28,7 @@ module Peppa
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins ENV['CORS_ORIGINS'].split(',').map { |origin| origin.strip }
+        origins 'https://foodfie-65a8c.firebaseapp.com'
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
