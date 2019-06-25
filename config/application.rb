@@ -42,6 +42,13 @@ module Peppa
         methods: [:get, :post, :put, :patch, :delete, :options, :head]
       end
 
+      allow do
+        origins 'http://10.90.90.102:3000'
+        resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      end
+
     end
   end
 end
