@@ -29,11 +29,19 @@ module Peppa
 
     Rails.application.config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'https://foodfie-65a8c.firebaseapp.com'
+        origins '*'
         resource '*',
         headers: :any,
         methods: [:get, :post, :put, :patch, :delete, :options, :head]
       end
+
+      allow do
+        origins 'https://foodfie-api.firebaseapp.com'
+        resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      end
+
     end
   end
 end
