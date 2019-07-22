@@ -7,13 +7,14 @@ class Api::V1::DishesController < ApplicationController
   before_action :check_price, only: [:create]
 
   def create
+    binding.pry
     @reposted = true
     if params[:dish_id].present?
       @dish = Dish.find_by_id(params[:dish_id])
       if @dish.nil?
         return render json: { success: 'No', message: 'Invalid Dish details.' }, status: 422
       else
-        if @dish.name.strip != dish_params[:name].strip
+        if @dish.name != dish_params[:name]
           @reposted = false
           @dish = current_user.dishes.new(dish_params)
         else
@@ -21,7 +22,7 @@ class Api::V1::DishesController < ApplicationController
         end
       end
     else
-      existing_dish = Dish.find_by(name: dish_params[:name].strip)
+      existing_dish = Dish.find_by(name: dish_params[:name])
       if existing_dish.present?
         @dish = existing_dish
         @dish.attributes = dish_params.except(:restaurant_id)
@@ -44,16 +45,17 @@ class Api::V1::DishesController < ApplicationController
           @dish = current_user.dishes.new(dish_params)
           @dish.restaurant_id = restaurant_id
           @reposted = false
+          @dish.save
         end
       end
-      if @dish.restaurant_id.present?                   
+      if @dish.restaurant_id.present?
         if params[:image_content_type].present? and params[:image].present?
           image_content_types = %w(image/jpeg image/jpg image/png image/gif)
           image_content_type = params[:image_content_type]
           return render json: { success: 'No', message: "Image content type should be from #{image_content_types*', '}."}, status: 422 if image_content_types.exclude?(image_content_type)
-          image_param = params[:image].strip
+          image_param = params[:image]
         end
-        @dish.name = @dish.name.strip
+        @dish.name = @dish.name
         if @dish.save
           type = 'dish'
           type_id = @dish.id
@@ -70,7 +72,8 @@ class Api::V1::DishesController < ApplicationController
           dish_user.save
         end
         if params[:image_content_type].present? and params[:image].present?
-          Image.save_dish_image(current_user, @dish, image_content_type, image_param)
+          image_name = params[:image_name]
+          Image.save_dish_image(current_user, @dish, image_content_type, image_param )
         end
         respond_to :json
       else
@@ -143,7 +146,7 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def search
-    # binding.pry
+    binding.pry
     search_results
   end
 
@@ -277,18 +280,8 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def lookup_or_create_restaurant
-    restaurant = Restaurant.lookup_by_lat_lng(params[:restaurant][:latitude], params[:restaurant][:longitude], params[:restaurant][:google_place_id])
-    if restaurant.nil?
-      phone_number = Restaurant.get_phone_number(params[:restaurant][:google_place_id])
-      params[:restaurant][:phone_number] = phone_number
-      restaurant = Restaurant.new(restaurant_params)
-      restaurant.save!
-    end
-    if !restaurant.google_place_id.present?
-      restaurant.google_place_id = params[:restaurant][:google_place_id]
-      restaurant.save
-    end
-    (!restaurant.nil? && !restaurant.id.nil?) ? restaurant.id : nil
+    restaurant = Restaurant.get_by_name(restaurant_params[:name])
+    restaurant.id
   end
 
   def restaurants_quary(locations)

@@ -148,6 +148,11 @@ class Restaurant < ActiveRecord::Base
     restaurant
   end
 
+
+  def self.get_by_name(restaurant_name)
+    restaurant = self.where('name LIKE ?',"%#{restaurant_name}%").first
+  end
+
   def self.get_phone_number(google_place_id)
     if google_place_id
       details = Geocoder.search(google_place_id, lookup: :google_places_details)

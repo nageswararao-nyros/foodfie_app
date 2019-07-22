@@ -13,6 +13,7 @@ class Api::V1::RatingsController < ApplicationController
   end
 
   def create
+    binding.pry
     rating = Rating.find_or_initialize_by(dish_id: @dish.id, user_id: current_user.id)
     rating.attributes = rating_params
     if rating.save
