@@ -7,7 +7,7 @@ class Api::V1::DishesController < ApplicationController
   before_action :check_price, only: [:create]
 
   def create
-    binding.pry
+    # binding.pry
     @reposted = true
     if params[:dish_id].present?
       @dish = Dish.find_by_id(params[:dish_id])
@@ -146,7 +146,7 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def search
-    binding.pry
+    # binding.pry
     search_results
   end
 
