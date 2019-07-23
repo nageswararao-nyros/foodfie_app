@@ -73,7 +73,7 @@ class Api::V1::DishesController < ApplicationController
         end
         if params[:image_content_type].present? and params[:image].present?
           image_name = params[:image_name]
-          Image.save_dish_image(current_user, @dish, image_content_type, image_param )
+          Image.save_dish_image(current_user, @dish, image_content_type, image_param, image_name )
         end
         respond_to :json
       else

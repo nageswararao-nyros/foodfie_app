@@ -32,13 +32,13 @@ class Image < ActiveRecord::Base
   end
 
   # save dish image
-  def self.save_dish_image(current_user, dish, image_content_type, image_param)
+  def self.save_dish_image(current_user, dish, image_content_type, image_param, image_name)
     # local image
     # binding.pry
     image_file = Paperclip.io_adapters.for(image_param)
     bytes = Base64.decode64(image_param)
-    img = image_content_type.partition('/').last
-    image_file.original_filename = "#{Time.current.to_i}.#{img}"
+    # img = image_content_type.partition('/').last
+    image_file.original_filename = image_name
     attachment_local_image = Image.find_or_initialize_by(user: current_user, attachable_id: dish.id, attachable_type: dish.class.name)
     attachment_local_image.image = image_file
     attachment_local_image.image_processing = true
