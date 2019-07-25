@@ -35,6 +35,10 @@ Rails.application.routes.draw do
       post '/forget_password' => 'registrations#forget_password'
       post '/notification_settings' => 'settings#notification_settings'
       get '/settings_info' => 'settings#settings_info'
+
+
+      post '/subscriptions' => 'subscriptions#create'
+      
       resources :users, only: [:index, :update] do
         collection do
           get :search

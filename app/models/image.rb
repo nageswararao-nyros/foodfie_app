@@ -10,7 +10,6 @@ class Image < ActiveRecord::Base
                     :path        => ":rails_root/public/system/:attachment/:id/:style/:filename",
                     :url         => "#{ActionController::Base.asset_host}/system/:attachment/:id/:style/:filename",
                     :styles      =>  { medium: "400x400>", thumb: "100x100>" }
-
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
   validates_attachment_size :image,less_than: 5.megabytes, :message => 'must be smaller than 5mb'
 
