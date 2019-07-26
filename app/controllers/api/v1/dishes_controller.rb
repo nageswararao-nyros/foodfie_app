@@ -1,8 +1,6 @@
 class Api::V1::DishesController < ApplicationController
 
-  require 'json'
-
-  include PushNotificationUtils
+ include PushNotificationUtils
   # before_action :restrict_access
   before_action :set_dish, except: [:create, :search, :search_by_name, :feed, :restaurant_search]
   #before_action :is_active_user, only: :create

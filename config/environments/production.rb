@@ -58,7 +58,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'https://foodfie.herokuapp.com'
+  # config.action_controller.asset_host = 'https://foodfie.herokuapp.com'
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -67,9 +67,9 @@ Rails.application.configure do
   #   host: 'www.peppa.io'
   # }
 
-  config.action_mailer.default_url_options = {
-    host: 'https://foodfie.herokuapp.com/'
-  }
+  # config.action_mailer.default_url_options = {
+  #   host: 'https://foodfie.herokuapp.com/'
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -87,7 +87,7 @@ Rails.application.configure do
   config.static_cache_control = "public, s-maxage=15552000, max-age=2592000"
 
   #config.action_controller.asset_host = 'http://www.peppa.io/'
-  config.action_controller.asset_host = 'https://foodfie.herokuapp.com/'
+  # config.action_controller.asset_host = 'https://foodfie.herokuapp.com/'
   config.action_mailer.delivery_method = :ses
 
 end
