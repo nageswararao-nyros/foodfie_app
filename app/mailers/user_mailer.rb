@@ -2,7 +2,7 @@ class UserMailer < ApplicationMailer
   default from: 'Peppa <hello@peppa.io>'
 
   def send_activation_email(user)
-    binding.pry
+    # binding.pry
     @greeting = "Hi"
     @user = user
     mail to: user.email, subject: 'Account activation for Peppa'

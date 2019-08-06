@@ -163,7 +163,9 @@ class User < ActiveRecord::Base
   end
 
   def downcase_email
-    self.email = self.email.downcase
+    if self.email.present?
+      self.email = self.email.downcase
+    end
   end
 
   def squish_first_name_and_last_name

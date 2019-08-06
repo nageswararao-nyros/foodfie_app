@@ -8,7 +8,7 @@ class Api::V1::DishesController < ApplicationController
   before_action :check_price, only: [:create]
 
   def create
-    # binding.pry
+    binding.pry
     @reposted = true
     if params[:dish_id].present?
       @dish = Dish.find_by_id(params[:dish_id])
@@ -47,22 +47,25 @@ class Api::V1::DishesController < ApplicationController
           @dish.restaurant_id = restaurant_id
           @reposted = false
           @dish.save
-
           if @dish
             message = { title: "New dish added in #{@dish.restaurant.name}", body: "Lets try !!!!!!!!!!"}
             subscriptions = Subscription.all
             subscriptions.each do |subscriber|
-              Webpush.payload_send(
-                endpoint: subscriber.endpoint,
-                message: JSON.generate(message),
-                p256dh: subscriber.p256dh,
-                auth: subscriber.auth,
-                vapid: {
-                  subject: "mailto:sender@example.com",
-                  public_key: 'BGaBmbHJz7l_KvpfcPLCDCfY6kQZtDRRFGSjp8YV7j4tG6s7yTHRvL4up1dFIyfMhCJYFn_Op5F_KkuI9mHPPJ0',
-                  private_key: 'XfX_OWSXUIpldH0UwtWJY8QALCpDOyrg3fWOhRilKqI'
-                }
-              )
+              begin
+                Webpush.payload_send(
+                  endpoint: subscriber.endpoint,
+                  message: JSON.generate(message),
+                  p256dh: subscriber.p256dh,
+                  auth: subscriber.auth,
+                  vapid: {
+                    subject: "mailto:sender@example.com",
+                    public_key: 'BGaBmbHJz7l_KvpfcPLCDCfY6kQZtDRRFGSjp8YV7j4tG6s7yTHRvL4up1dFIyfMhCJYFn_Op5F_KkuI9mHPPJ0',
+                    private_key: 'XfX_OWSXUIpldH0UwtWJY8QALCpDOyrg3fWOhRilKqI'
+                  }
+                )
+              rescue => e
+                puts "Subscription error"
+              end
             end
           end
         end
@@ -299,8 +302,12 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def lookup_or_create_restaurant
-    restaurant = Restaurant.get_by_name(restaurant_params[:name])
-    restaurant.id
+    begin
+      restaurant = Restaurant.get_by_name(restaurant_params[:name])
+      return restaurant
+    rescue ActiveRecord::RecordNotFound => e
+      puts e
+    end
   end
 
   def restaurants_quary(locations)

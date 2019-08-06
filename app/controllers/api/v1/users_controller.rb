@@ -1,12 +1,16 @@
 class Api::V1::UsersController < ApplicationController
   include PushNotificationUtils
-  before_action :restrict_access, except: [:check_uniqueness, :refresh_token]
+  before_action :restrict_access
   before_action :set_user, only: [:follow, :unfollow, :update, :followers, :refresh_token]
   before_action :un_rated_dishes, only: [:profile,:favourited_dishes,:show]
 
   def index
+    # binding.pry
     @current_user_followers = current_user.followers.all
-    @users = current_user.following.where.not(id: current_user.id).page(page).per(limit)
+    if current_user
+      @users = User.all.where.not(id: current_user.id)
+    end
+    # @users = current_user.following.where.not(id: current_user.id).page(page).per(limit)
     if @users.present?
       respond_to :json
     else
@@ -32,14 +36,16 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
+    # binding.pry
     if current_user
-      # render json: { success: 'Yes', message: 'You have successfully retrieved the user.', user: current_user, un_rated_dishes: @un_rated_dishes}, status: 200
+      render json: { success: 'Yes', message: 'You have successfully retrieved the user.', user: current_user, un_rated_dishes: @un_rated_dishes}, status: 200
     else
       render json: { success: 'No', message: 'There was a problem in getting the user', user: nil }, status: 404
     end
   end
 
   def follow
+    # binding.pry
     if UserFellowship.exists?(follower_id: current_user.id, user_id: @user.id)
       render json: { success: 'No', message: 'You are already following this user.' }, status: 422
     else
@@ -96,6 +102,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def followed_restaurants
+    # binding.pry
     @followed_restaurants = current_user.followed_restaurants.page(page).per(limit)
     if @followed_restaurants.present?
       respond_to :json
@@ -194,7 +201,7 @@ class Api::V1::UsersController < ApplicationController
       old_email = @user.email
       if @user.update(user_params)
         if user_params[:email] == old_email
-          render json: { success: 'Yes', message: 'User has successfully been updated.' }, status: 200
+          render json: { success: 'Yes', user:@user, message: 'User has successfully been updated.' }, status: 200
         else
           @user.send_activation_email
           @user.activated = false
