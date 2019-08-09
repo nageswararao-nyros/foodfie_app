@@ -7,7 +7,7 @@ class Api::V1::SessionsController < ApplicationController
       user = User.where("email = ? or username = ?", email_or_username, email_or_username).try(:first)
       begin
         if user && user.authenticate(params[:user][:password])
-          user.set_authentication_token
+          # user.set_authentication_token
           user.set_device_token params[:user][:device_id]
           render json: {
               message: "You have successfully signed in.",
@@ -29,7 +29,7 @@ class Api::V1::SessionsController < ApplicationController
     # binding.pry
     token = request.headers['Authorization']
     user = User.find_by_authentication_token(token)
-    user.authentication_token = nil
+    # user.authentication_token = nil
     user.save
     render json: { message: "You have successfully signed out of this application" }
   end

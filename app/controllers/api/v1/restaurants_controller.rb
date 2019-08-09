@@ -55,6 +55,15 @@ class Api::V1::RestaurantsController < ApplicationController
     end
   end
 
+  def suggested_restaurants
+    @restaurants = Restaurant.where(city: "kakinada").where("EXISTS(SELECT * FROM restaurant_fellowships
+   WHERE follower_id != #{current_user.id} )")
+    puts @restaurants.length
+    if @restaurants
+      respond_to :json
+    end
+  end
+
   def destroy
     if @restaurant && @restaurant.destroy
       render json: { success: 'Yes', message: 'Restaurant has successfully been destroyed.' }, status: 200
@@ -64,7 +73,7 @@ class Api::V1::RestaurantsController < ApplicationController
   end
 
   def follow
-    # binding.pry
+    binding.pry
     if @restaurant.get_followed_by(current_user.id)
       render json: { success: 'Yes', message: 'You successfully followed the restaurant.' }, status: 200
     else
@@ -73,7 +82,7 @@ class Api::V1::RestaurantsController < ApplicationController
   end
 
   def unfollow
-    # binding.pry
+    binding.pry
     if @restaurant.get_unfollowed_by(current_user.id)
       render json: { success: 'Yes', message: 'You successfully unfollowed the restaurant.' }, status: 200
     else

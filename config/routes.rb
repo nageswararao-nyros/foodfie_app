@@ -36,9 +36,8 @@ Rails.application.routes.draw do
       post '/notification_settings' => 'settings#notification_settings'
       get '/settings_info' => 'settings#settings_info'
 
-
       post '/subscriptions' => 'subscriptions#create'
-      
+      get '/restaurants/suggested_restaurants' => 'restaurants#suggested_restaurants'
       resources :users, only: [:index, :update] do
         collection do
           get :search

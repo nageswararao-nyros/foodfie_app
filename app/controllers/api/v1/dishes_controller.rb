@@ -8,7 +8,7 @@ class Api::V1::DishesController < ApplicationController
   before_action :check_price, only: [:create]
 
   def create
-    # binding.pry
+    binding.pry
     @reposted = true
     if params[:dish_id].present?
       @dish = Dish.find_by_id(params[:dish_id])
@@ -137,6 +137,7 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def favourite
+    # binding.pry
     if @dish.get_favourited_by(current_user.id)
       type = 'dish'
       type_id = @dish.id
@@ -152,6 +153,7 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def unfavourite
+    # binding.pry
     if @dish.get_unfavourited_by(current_user.id)
       render json: { success: 'Yes', message: 'You successfully unfavourited the dish.' }, status: 200
     else
