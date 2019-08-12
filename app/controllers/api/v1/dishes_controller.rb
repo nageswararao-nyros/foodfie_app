@@ -8,7 +8,7 @@ class Api::V1::DishesController < ApplicationController
   before_action :check_price, only: [:create]
 
   def create
-    binding.pry
+    # binding.pry
     @reposted = true
     if params[:dish_id].present?
       @dish = Dish.find_by_id(params[:dish_id])
@@ -35,7 +35,7 @@ class Api::V1::DishesController < ApplicationController
     if @dish.valid?
       restaurant_id = lookup_or_create_restaurant
       if restaurant_id.nil?
-        return render json: { success: 'No', message: "Cannot save dish because restaurant not found or cannot add new restaurant" }, status: 422
+        return render json: { success: 'No', message: "Cannot save dish because restaurant not found or cannot add new restaurant" }
       end
       if @dish.restaurant_id.blank? or @dish.restaurant_id != restaurant_id
         existing_dish = Dish.find_by(name: dish_params[:name], restaurant_id: restaurant_id)
@@ -47,27 +47,27 @@ class Api::V1::DishesController < ApplicationController
           @dish.restaurant_id = restaurant_id
           @reposted = false
           @dish.save
-          if @dish
-            message = { title: "New dish added in #{@dish.restaurant.name}", body: "Lets try !!!!!!!!!!"}
-            subscriptions = Subscription.all
-            subscriptions.each do |subscriber|
-              begin
-                Webpush.payload_send(
-                  endpoint: subscriber.endpoint,
-                  message: JSON.generate(message),
-                  p256dh: subscriber.p256dh,
-                  auth: subscriber.auth,
-                  vapid: {
-                    subject: "mailto:sender@example.com",
-                    public_key: 'BGaBmbHJz7l_KvpfcPLCDCfY6kQZtDRRFGSjp8YV7j4tG6s7yTHRvL4up1dFIyfMhCJYFn_Op5F_KkuI9mHPPJ0',
-                    private_key: 'XfX_OWSXUIpldH0UwtWJY8QALCpDOyrg3fWOhRilKqI'
-                  }
-                )
-              rescue => e
-                puts "Subscription error"
-              end
-            end
-          end
+          # if @dish
+          #   message = { title: "New dish added in Foodfie", body: "Lets try !!!!!!!!!!"}
+          #   subscriptions = Subscription.all
+          #   subscriptions.each do |subscriber|
+          #     begin
+          #       Webpush.payload_send(
+          #         endpoint: subscriber.endpoint,
+          #         message: JSON.generate(message),
+          #         p256dh: subscriber.p256dh,
+          #         auth: subscriber.auth,
+          #         vapid: {
+          #           subject: "mailto:sender@example.com",
+          #           public_key: 'BGaBmbHJz7l_KvpfcPLCDCfY6kQZtDRRFGSjp8YV7j4tG6s7yTHRvL4up1dFIyfMhCJYFn_Op5F_KkuI9mHPPJ0',
+          #           private_key: 'XfX_OWSXUIpldH0UwtWJY8QALCpDOyrg3fWOhRilKqI'
+          #         }
+          #       )
+          #     rescue => e
+          #       puts "Subscription error"
+          #     end
+          #   end
+          # end
         end
       end
       if @dish.restaurant_id.present?
@@ -306,7 +306,11 @@ class Api::V1::DishesController < ApplicationController
   def lookup_or_create_restaurant
     begin
       restaurant = Restaurant.get_by_name(restaurant_params[:name])
-      return restaurant
+      return restaurant.id if restaurant.present?
+      if restaurant.nil?
+        return restaurant = nil
+        # render json: { success: 'No', message: 'Restaurant Not Found Here' }
+      end
     rescue ActiveRecord::RecordNotFound => e
       puts e
     end

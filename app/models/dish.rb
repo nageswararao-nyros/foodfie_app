@@ -19,7 +19,7 @@ class Dish < ActiveRecord::Base
 
   validate :price_check
 
-  after_create :save_restaurant_image, :send_notification_restaurant
+  # after_create :save_restaurant_image, :send_notification_restaurant
 
   scope :latest, -> { order('dishes.id desc') }
   scope :search_results, -> (key) { where("lower(dishes.name) LIKE ?", "%#{key}%")}

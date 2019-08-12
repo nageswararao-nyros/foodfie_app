@@ -8,10 +8,10 @@ class Api::V1::AuthenticationsController < ApplicationController
       if authentication
         #authentication.user.set_authentication_token
         user = authentication.user
-        authentication.user.set_device_token params[:device_id]
+        # authentication.user.set_device_token params[:device_id]
         render json: {
           success: "Yes",
-          message: "You have succesfully signed in. Aready signed In",
+          message: "You have succesfully signed in",
           authentication_token: authentication.user.authentication_token,
           user: user
         }, status: 200

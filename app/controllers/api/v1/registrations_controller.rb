@@ -1,6 +1,7 @@
 class Api::V1::RegistrationsController < ApplicationController
 
   def create
+    # binding.pry
     user = User.new(user_params)
     if user.valid?
       user.save
