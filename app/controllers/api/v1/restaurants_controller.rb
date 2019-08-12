@@ -73,7 +73,7 @@ class Api::V1::RestaurantsController < ApplicationController
   end
 
   def follow
-    binding.pry
+    # binding.pry
     if @restaurant.get_followed_by(current_user.id)
       render json: { success: 'Yes', message: 'You successfully followed the restaurant.' }, status: 200
     else
@@ -82,7 +82,7 @@ class Api::V1::RestaurantsController < ApplicationController
   end
 
   def unfollow
-    binding.pry
+    # binding.pry
     if @restaurant.get_unfollowed_by(current_user.id)
       render json: { success: 'Yes', message: 'You successfully unfollowed the restaurant.' }, status: 200
     else
