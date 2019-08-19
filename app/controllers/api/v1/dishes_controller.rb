@@ -303,17 +303,32 @@ class Api::V1::DishesController < ApplicationController
     end
   end
 
+  # def lookup_or_create_restaurant
+  #   begin
+  #     restaurant = Restaurant.get_by_name(restaurant_params[:name])
+  #     return restaurant.id if restaurant.present?
+  #     if restaurant.nil?
+  #       return restaurant = nil
+  #       # render json: { success: 'No', message: 'Restaurant Not Found Here' }
+  #     end
+  #   rescue ActiveRecord::RecordNotFound => e
+  #     puts e
+  #   end
+  # end
+
   def lookup_or_create_restaurant
-    begin
-      restaurant = Restaurant.get_by_name(restaurant_params[:name])
-      return restaurant.id if restaurant.present?
-      if restaurant.nil?
-        return restaurant = nil
-        # render json: { success: 'No', message: 'Restaurant Not Found Here' }
-      end
-    rescue ActiveRecord::RecordNotFound => e
-      puts e
+    restaurant = Restaurant.lookup_by_lat_lng(params[:restaurant][:latitude], params[:restaurant][:longitude])
+    if restaurant.nil?
+      # phone_number = Restaurant.get_phone_number(params[:restaurant][:google_place_id])
+      # params[:restaurant][:phone_number] = phone_number
+      restaurant = Restaurant.new(restaurant_params)
+      restaurant.save!
     end
+    if !restaurant.google_place_id.present?
+      restaurant.google_place_id = params[:restaurant][:google_place_id]
+      restaurant.save
+    end
+    (!restaurant.nil? && !restaurant.id.nil?) ? restaurant.id : nil
   end
 
   def restaurants_quary(locations)

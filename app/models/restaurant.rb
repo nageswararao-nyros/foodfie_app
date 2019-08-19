@@ -138,13 +138,13 @@ class Restaurant < ActiveRecord::Base
     end
   end
 
-  def self.lookup_by_lat_lng(latitude, longitude, google_place_id)
+  def self.lookup_by_lat_lng(latitude, longitude)
     latitude = Float(latitude).round(7) if latitude
     longitude = Float(longitude).round(7) if longitude
     restaurant = self.where(latitude: latitude, longitude: longitude).first
-    if !restaurant.nil? && restaurant.phone_number.nil?
-      restaurant.update_google_place_id(google_place_id)
-    end
+    # if !restaurant.nil? && restaurant.phone_number.nil?
+    #   restaurant.update_google_place_id(google_place_id)
+    # end
     restaurant
   end
 
