@@ -107,7 +107,17 @@ class Api::V1::DishesController < ApplicationController
   end
 
   def update
+    # binding.pry
     if @dish.update_attributes(dish_params)
+      # @image = Image.update_dish_
+      image_content_type = params[:image_content_type]
+      image_param = params[:image]
+      image_name = params[:image_name]
+      image_id = params[:image_id]
+      Image.update_dish_image(current_user, @dish, image_content_type, image_param, image_name, image_id) if params[:image_id].present?
+      if params[:image_id].nil?
+        Image.save_dish_image(current_user, @dish, image_content_type, image_param, image_name )
+      end
       respond_to :json
     else
       render json: { success: 'No', dish: @dish.errors.messages, message: 'Dish could not be updated successfully.' }, status: 422
@@ -280,6 +290,7 @@ class Api::V1::DishesController < ApplicationController
   private
   #where(restaurants: {city: city})
   def search_results
+    # binding.pry
     dish_page = params[:dish_page] || page
     dish_page = params[:dish_page] || page
     dish_limit = params[:dish_limit] || limit

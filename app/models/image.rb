@@ -47,6 +47,24 @@ class Image < ActiveRecord::Base
     # Delayed::Job.enqueue(ImageUploaderJob.new(attachment_local_image, current_user, dish, image_content_type, image_param))
   end
 
+
+  def self.update_dish_image(current_user, dish, image_content_type, image_param, image_name, image_id)
+    # local image
+    # binding.pry
+    @image = Image.find(image_id) if image_id.present?
+    image_file = Paperclip.io_adapters.for(image_param)
+    bytes = Base64.decode64(image_param)
+    # img = image_content_type.partition('/').last
+    image_file.original_filename = image_name
+    @image = Image.find_or_initialize_by(user: current_user, attachable_id: dish.id, attachable_type: dish.class.name)
+    @image.image = image_file
+    @image.image_processing = true
+    @image.save if @image.valid?
+
+    # live image
+    # Delayed::Job.enqueue(ImageUploaderJob.new(attachment_local_image, current_user, dish, image_content_type, image_param))
+  end
+
   def is_processing
     self.image_processing
   end
