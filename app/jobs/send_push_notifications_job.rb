@@ -1,9 +1,13 @@
-class WebPushJob < Struct.new(:subscribers, :dish)
-  def perform
-    message = { title: "New dish added in #{dish}", body: "Lets try !!!!!!!!!!"}
-    # subscriptions = Subscription.all
+class SendPushNotificationsJob < ApplicationJob
+  queue_as :default
+
+  after_perform :job_response
+
+  def perform(dish_res)
     # binding.pry
-    subscribers.each do |subscriber|
+    subscriptions = Subscription.all
+    message = { title: "New dish added in #{dish_res}", body: "Lets try !!!!!!!!!!"}
+    subscriptions.each do |subscriber|
       begin
         Webpush.payload_send(
           endpoint: subscriber.endpoint,
@@ -20,5 +24,9 @@ class WebPushJob < Struct.new(:subscribers, :dish)
         puts "Subscription error"
       end
     end
+  end
+
+  def job_response
+    puts"Sent notifications performed just now"
   end
 end

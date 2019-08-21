@@ -48,25 +48,30 @@ class Api::V1::DishesController < ApplicationController
           @reposted = false
           @dish.save
           if @dish
-            message = { title: "New dish added in Foodfie", body: "Lets try !!!!!!!!!!"}
-            subscriptions = Subscription.all
-            subscriptions.each do |subscriber|
-              begin
-                Webpush.payload_send(
-                  endpoint: subscriber.endpoint,
-                  message: JSON.generate(message),
-                  p256dh: subscriber.p256dh,
-                  auth: subscriber.auth,
-                  vapid: {
-                    subject: "mailto:sender@example.com",
-                    public_key: 'BGaBmbHJz7l_KvpfcPLCDCfY6kQZtDRRFGSjp8YV7j4tG6s7yTHRvL4up1dFIyfMhCJYFn_Op5F_KkuI9mHPPJ0',
-                    private_key: 'XfX_OWSXUIpldH0UwtWJY8QALCpDOyrg3fWOhRilKqI'
-                  }
-                )
-              rescue => e
-                puts "Subscription error"
-              end
-            end
+            # message = { title: "New dish added in Foodfie", body: "Lets try !!!!!!!!!!"}
+            # subscriptions = Subscription.all
+            @dish_res = @dish.restaurant.name
+            # subscriptions.each do |subscriber|
+            #   begin
+            #     Webpush.payload_send(
+            #       endpoint: subscriber.endpoint,
+            #       message: JSON.generate(message),
+            #       p256dh: subscriber.p256dh,
+            #       auth: subscriber.auth,
+            #       vapid: {
+            #         subject: "mailto:sender@example.com",
+            #         public_key: 'BGaBmbHJz7l_KvpfcPLCDCfY6kQZtDRRFGSjp8YV7j4tG6s7yTHRvL4up1dFIyfMhCJYFn_Op5F_KkuI9mHPPJ0',
+            #         private_key: 'XfX_OWSXUIpldH0UwtWJY8QALCpDOyrg3fWOhRilKqI'
+            #       }
+            #     )
+            #   rescue => e
+            #     puts "Subscription error"
+            #   end
+            # end
+            # binding.pry
+            
+            Delayed::Job.enqueue( SendPushNotificationsJob.set(wait: 30.seconds).perform_later @dish_res )
+            # Delayed::Job.enqueue(WebPushJob.new(subscriptions, dish))
           end
         end
       end
@@ -328,8 +333,13 @@ class Api::V1::DishesController < ApplicationController
   # end
 
   def lookup_or_create_restaurant
+    # binding.pry
     restaurant = Restaurant.lookup_by_lat_lng(params[:restaurant][:latitude], params[:restaurant][:longitude])
     if restaurant.nil?
+      restaurant_by_name = Restaurant.find_by_name(params[:restaurant][:name])
+      if restaurant_by_name
+        return restaurant_by_name.id
+      end
       # phone_number = Restaurant.get_phone_number(params[:restaurant][:google_place_id])
       # params[:restaurant][:phone_number] = phone_number
       restaurant = Restaurant.new(restaurant_params)
