@@ -954,7 +954,7 @@ GEM
     multi_xml (0.6.0)
     netrc (0.11.0)
     nio4r (2.3.1)
-    nokogiri (1.10.3)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     notification-handler (2.0.0)
       activerecord (>= 5.0)
