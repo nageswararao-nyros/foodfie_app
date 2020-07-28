@@ -17,7 +17,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 gem 'jquery-rails'
 gem 'sdoc', '~> 1.0'
-gem 'json', '~> 2.2'
+gem 'json', '~> 2.3'
 gem 'aws-sdk'
 gem 'rmagick'
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
